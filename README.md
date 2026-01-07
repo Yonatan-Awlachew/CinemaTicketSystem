@@ -10,7 +10,7 @@ A web-based cinema ticket reservation system built with ASP.NET Core MVC and Rea
 **Institution:** Warsaw University of Technology  
 **Faculty:** Faculty of Electronics and Information Technology  
 **Student:** Yonatan Firde  
-**Project Repository:** [GitLab Repository](https://gitlab-stud.elka.pw.edu.pl/25z-egui/mvc/25Z-EGUI-MVC-Firde-Yonatan.git)
+**Project Repository:** [GitLab Repository](https://gitlab-stud.elka.pw.edu.pl/25z-egui/react/25Z-EGUI-REACT-Firde-Yonatan.git)
 
 ## Technology Stack
 
@@ -24,7 +24,7 @@ A web-based cinema ticket reservation system built with ASP.NET Core MVC and Rea
 ## System Architecture
 
 - **Backend Framework:** ASP.NET Core 9.0 MVC
-- **Frontend Framework:** React 18.x
+- **Frontend Framework:** React 19.2.3
 - **ORM:** Entity Framework Core
 - **Authentication:** ASP.NET Core Identity
 - **Database:** MySQL 5.7.24

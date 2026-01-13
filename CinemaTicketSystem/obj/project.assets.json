@@ -3755,11 +3755,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task3_Complete--/CinemaTicketSystem/CinemaTicketSystem.csproj",
+      "projectUniqueName": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task4_Complete/CinemaTicketSystem/CinemaTicketSystem.csproj",
       "projectName": "CinemaTicketSystem",
-      "projectPath": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task3_Complete--/CinemaTicketSystem/CinemaTicketSystem.csproj",
+      "projectPath": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task4_Complete/CinemaTicketSystem/CinemaTicketSystem.csproj",
       "packagesPath": "/Users/macbookpro/.nuget/packages/",
-      "outputPath": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task3_Complete--/CinemaTicketSystem/obj/",
+      "outputPath": "/Users/macbookpro/Downloads/Project/GUI/Task3/Task4_Complete/CinemaTicketSystem/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/macbookpro/.nuget/NuGet/NuGet.Config"

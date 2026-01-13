@@ -10,7 +10,6 @@ using CinemaTicketSystem.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container
-// Using MySQL with Pomelo provider
 builder.Services.AddDbContext<CinemaDbContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("DefaultConnection"),
@@ -55,15 +54,13 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// Configure Controllers with JSON options to handle circular references
+// Configure Controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        // Handle circular references
         options.JsonSerializerOptions.ReferenceHandler = 
             System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         
-        // Optional: Format dates consistently
         options.JsonSerializerOptions.Converters.Add(
             new System.Text.Json.Serialization.JsonStringEnumConverter());
     });
@@ -86,10 +83,9 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Cinema Ticket API", Version = "v1" });
     
-    // Add JWT Authentication to Swagger
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Description = "JWT Authorization header using Bearer scheme. Enter 'Bearer' [space] and then your token",
+        Description = "JWT Authorization header using Bearer scheme",
         Name = "Authorization",
         In = ParameterLocation.Header,
         Type = SecuritySchemeType.ApiKey,
@@ -121,10 +117,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+// IMPORTANT: Add static files BEFORE routing
+app.UseDefaultFiles();
+app.UseStaticFiles();
+
 app.UseHttpsRedirection();
 app.UseCors("AllowReactApp");
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
+
+// Fallback to index.html for SPA routing
+app.MapFallbackToFile("index.html");
 
 app.Run();

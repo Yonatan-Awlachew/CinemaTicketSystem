@@ -207,7 +207,9 @@ namespace CinemaTicketSystem.Controllers
         }
 
         // GET: api/reservations/screening/5
+        // NOTE: This endpoint does NOT require authentication - anyone can view seat availability
         [HttpGet("screening/{screeningId}")]
+        [AllowAnonymous]
         public async Task<ActionResult> GetReservedSeats(int screeningId)
         {
             var screening = await _context.Screenings.FindAsync(screeningId);
@@ -217,13 +219,11 @@ namespace CinemaTicketSystem.Controllers
             }
 
             var reservedSeats = await _context.SeatReservations
-                .Include(r => r.User)
                 .Where(r => r.ScreeningId == screeningId)
                 .Select(r => new
                 {
                     rowNumber = r.RowNumber,
-                    seatNumber = r.SeatNumber,
-                    userName = $"{r.User!.FirstName} {r.User.LastName}"
+                    seatNumber = r.SeatNumber
                 })
                 .ToListAsync();
 
@@ -231,7 +231,7 @@ namespace CinemaTicketSystem.Controllers
         }
     }
 
-    // Request model
+    // Request models
     public class ReserveSeatRequest
     {
         public int ScreeningId { get; set; }

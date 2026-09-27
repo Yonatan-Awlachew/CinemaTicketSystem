@@ -1,0 +1,17 @@
+# Build output
+bin/
+obj/
+
+# User-specific secrets (dotnet user-secrets stores these outside the repo already,
+# this just covers anyone who creates a local override file instead)
+appsettings.Local.json
+appsettings.*.local.json
+*.user
+
+# IDE
+.vs/
+.vscode/
+.idea/
+
+# OS
+.DS_Store

@@ -86,7 +86,6 @@ namespace CinemaTicketSystem.Data
 
         private void SeedRoles(ModelBuilder modelBuilder)
         {
-            // Seed roles
             modelBuilder.Entity<IdentityRole>().HasData(
                 new IdentityRole 
                 { 

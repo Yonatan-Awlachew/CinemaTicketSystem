@@ -185,6 +185,33 @@ namespace CinemaTicketSystem.Controllers
                 rowVersion = user.RowVersion
             });
         }
+
+        // DELETE: api/users/{id} (Admin only)
+        [HttpDelete("{id}")]
+        [Authorize(Roles = "Administrator")]
+        public async Task<ActionResult> DeleteUser(string id)
+        {
+            // Prevent admin from deleting themselves
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (id == currentUserId)
+            {
+                return BadRequest(new { message = "You cannot delete your own account" });
+            }
+
+            var user = await _userManager.FindByIdAsync(id);
+            if (user == null)
+            {
+                return NotFound(new { message = "User not found" });
+            }
+
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return BadRequest(new { message = "Failed to delete user", errors = result.Errors });
+            }
+
+            return Ok(new { message = "User deleted successfully" });
+        }
     }
 
     // Request model

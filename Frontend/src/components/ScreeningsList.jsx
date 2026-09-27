@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import screeningService from '../services/screeningService';
 
-function ScreeningsList({ onNavigate }) {
+function ScreeningsList({ onNavigate, onSelectScreening }) {
     const { user } = useAuth();
     const [screenings, setScreenings] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -35,11 +35,22 @@ function ScreeningsList({ onNavigate }) {
             setDeletingId(id);
             await screeningService.deleteScreening(id);
             alert('Screening deleted successfully!');
-            loadScreenings(); // Reload list
+            loadScreenings();
         } catch (err) {
             alert('Error: ' + err.message);
         } finally {
             setDeletingId(null);
+        }
+    };
+
+    const handleSelectSeats = (screening) => {
+        if (!user) {
+            alert('Please login to reserve seats');
+            return;
+        }
+        
+        if (onSelectScreening) {
+            onSelectScreening(screening);
         }
     };
 
@@ -138,9 +149,14 @@ function ScreeningsList({ onNavigate }) {
                                     <div className="d-flex gap-2">
                                         <button 
                                             className="btn btn-primary btn-sm flex-grow-1"
+                                            onClick={() => handleSelectSeats(screening)}
                                             disabled={isPastScreening(screening.startDateTime) || screening.availableSeats === 0}
                                         >
-                                            Select Seats
+                                            {isPastScreening(screening.startDateTime) 
+                                                ? 'Screening Ended' 
+                                                : screening.availableSeats === 0 
+                                                ? 'Sold Out' 
+                                                : '🎟️ Select Seats'}
                                         </button>
                                         
                                         {user?.role === 'Administrator' && (

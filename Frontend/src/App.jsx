@@ -6,13 +6,26 @@ import { useAuth } from './context/AuthContext';
 import Login from './components/Login';
 import Register from './components/Register';
 import ScreeningsList from './components/ScreeningsList';
+import SeatSelection from './components/SeatSelection';
 import Profile from './components/Profile';
+import MyReservations from './components/MyReservations';
 import AdminUserList from './components/AdminUserList';
 import AdminCreateScreening from './components/AdminCreateScreening';
 
 function App() {
   const { user, logout, loading } = useAuth();
   const [currentView, setCurrentView] = useState('home');
+  const [selectedScreening, setSelectedScreening] = useState(null);
+
+  const handleSelectScreening = (screening) => {
+    setSelectedScreening(screening);
+    setCurrentView('seat-selection');
+  };
+
+  const handleBackToScreenings = () => {
+    setSelectedScreening(null);
+    setCurrentView('screenings');
+  };
 
   if (loading) {
     return (
@@ -76,6 +89,18 @@ function App() {
               {/* Authenticated */}
               {user ? (
                 <>
+                  {/* My Reservations */}
+                  <li className="nav-item">
+                    <a
+                      className={`nav-link ${currentView === 'my-reservations' ? 'active' : ''}`}
+                      href="#"
+                      onClick={() => setCurrentView('my-reservations')}
+                    >
+                      🎟️ My Reservations
+                    </a>
+                  </li>
+
+                  {/* Profile */}
                   <li className="nav-item">
                     <a
                       className={`nav-link ${currentView === 'profile' ? 'active' : ''}`}
@@ -86,6 +111,7 @@ function App() {
                     </a>
                   </li>
 
+                  {/* Admin: Manage Users */}
                   {user.role === 'Administrator' && (
                     <li className="nav-item">
                       <a
@@ -100,6 +126,7 @@ function App() {
                     </li>
                   )}
 
+                  {/* User Info */}
                   <li className="nav-item">
                     <span className="nav-link text-light">
                       {user.firstName} {user.lastName}
@@ -109,6 +136,7 @@ function App() {
                     </span>
                   </li>
 
+                  {/* Logout */}
                   <li className="nav-item">
                     <button
                       className="nav-link btn btn-link"
@@ -197,7 +225,21 @@ function App() {
         )}
 
         {currentView === 'screenings' && (
-          <ScreeningsList onNavigate={setCurrentView} />
+          <ScreeningsList 
+            onNavigate={setCurrentView}
+            onSelectScreening={handleSelectScreening}
+          />
+        )}
+
+        {currentView === 'seat-selection' && selectedScreening && (
+          <SeatSelection 
+            screening={selectedScreening}
+            onBack={handleBackToScreenings}
+          />
+        )}
+
+        {currentView === 'my-reservations' && user && (
+          <MyReservations />
         )}
 
         {currentView === 'profile' && user && <Profile />}
@@ -205,12 +247,12 @@ function App() {
         {currentView === 'admin-users' &&
           user?.role === 'Administrator' && <AdminUserList />}
 
-        {currentView === 'login' && (
-          <Login onSwitchToRegister={() => setCurrentView('register')} />
-        )}
-
         {currentView === 'create-screening' && user?.role === 'Administrator' && (
           <AdminCreateScreening onBack={() => setCurrentView('screenings')} />
+        )}
+        
+        {currentView === 'login' && (
+          <Login onSwitchToRegister={() => setCurrentView('register')} />
         )}
         
         {currentView === 'register' && (

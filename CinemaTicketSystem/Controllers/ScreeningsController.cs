@@ -138,14 +138,14 @@ namespace CinemaTicketSystem.Controllers
             var hasReservations = await _context.SeatReservations
                 .AnyAsync(r => r.ScreeningId == id);
             
-            if (hasReservations)
+            /*if (hasReservations)
             {
                 return BadRequest(new 
                 { 
                     message = "Cannot delete screening with reservations. Cancel reservations first." 
                 });
             }
-
+            */
             _context.Screenings.Remove(screening);
             await _context.SaveChangesAsync();
 
